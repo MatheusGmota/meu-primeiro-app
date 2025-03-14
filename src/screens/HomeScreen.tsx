@@ -2,14 +2,11 @@ import React, { useState } from 'react';
 import { FlatList, Alert, Button } from 'react-native';
 import styled from 'styled-components/native';
 import { HeaderContainer, HeaderTitle } from '../components/Header';
+import { TipoItemLista } from '../types';
 
 const HomeScreen = () => {
   const [text, setText] = useState('');
-  const [items, setItems] = useState([
-    { id: '1', text: 'Item 1' },
-    { id: '2', text: 'Item 2' },
-    { id: '3', text: 'Item 3' },
-  ]);
+  const [items, setItems] = useState<TipoItemLista[]>([{id:"21", text:"testeAD23"}]);
 
   const addItem = () => {
     if (text.trim()) {
@@ -17,11 +14,17 @@ const HomeScreen = () => {
       setText('');
     }
   };
+  
+  const delItem = (id: string) => {
+      const novosItens = items.filter((item) => item.id != id);
+      setItems([...novosItens]);
+      setText('');
+  };
 
   return (
     <Container>
       <HeaderContainer>
-        <HeaderTitle>Meu Primeiro App</HeaderTitle>
+        <HeaderTitle>Lista de tarefas</HeaderTitle>
       </HeaderContainer>
 
       <Content>
@@ -41,6 +44,7 @@ const HomeScreen = () => {
           renderItem={({ item }) => (
             <ListItem>
               <ListItemText>{item.text}</ListItemText>
+              <Button title='delete' onPress={() => delItem(item.id)} color={`red`}/>
             </ListItem>
           )}
         />
@@ -57,7 +61,7 @@ const HomeScreen = () => {
 
 const Container = styled.ScrollView`
   flex: 1;
-  background-color: #f8f9fa;
+  background-color: #292929;
 `;
 
 const Content = styled.View`
@@ -65,15 +69,16 @@ const Content = styled.View`
 `;
 
 const Input = styled.TextInput`
+  color: #ffffff;
   height: 40px;
-  border: 1px solid #ced4da;
+  border: 1px solid #a52dd4;
   border-radius: 5px;
   margin-bottom: 10px;
   padding: 10px;
 `;
 
 const AddButton = styled.TouchableOpacity`
-  background-color: #28a745;
+  background-color: #a52dd4;
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 20px;
@@ -86,13 +91,17 @@ const ButtonText = styled.Text`
 `;
 
 const ListItem = styled.View`
-  background-color: white;
+  background-color: #1f1f1f;
   padding: 15px;
   border-radius: 5px;
   margin-bottom: 10px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const ListItemText = styled.Text`
+  color: #f6f6f6;
   font-size: 16px;
 `;
 
